@@ -2,12 +2,12 @@ module;
 export module cmdline;
 import std;
 
-export bool cmdline_quick_check(int argc, char* argv[]);
+export bool cmdline_quick_check(int argc, char *argv[]);
 
 void print_help();
 void print_version();
 
-bool cmdline_quick_check(int argc, char* argv[]){
+bool cmdline_quick_check(int argc, char *argv[]) {
   for (int i = 1; i < argc; ++i) {
     if (std::strcmp(argv[i], "-h") == 0 ||
         std::strcmp(argv[i], "--help") == 0) {
