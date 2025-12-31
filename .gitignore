@@ -1,0 +1,8 @@
+/build/
+CMake*
+cmake*
+**/log*
+/.ninja*
+build*.ninja
+!CMakeLists.txt
+/ngterm
