@@ -33,6 +33,15 @@ target_sources(ngterm
   FILES
   src/ngterm.cxx
   src/cmdline.cxx
+  src/pty.cxx
+  src/types.cxx
+)
+
+add_custom_target(format 
+  clang-format-20 -i $<TARGET_PROPERTY:ngterm,SOURCES> 
+  $<TARGET_PROPERTY:ngterm,CXX_MODULE_SET>
+  COMMAND_EXPAND_LISTS
+  VERBATIM
 )
 
 target_compile_definitions(ngterm PRIVATE VERSION=\"${PROJECT_VERSION}\")
