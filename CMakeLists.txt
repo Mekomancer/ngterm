@@ -8,7 +8,7 @@ set(CMAKE_BINARY_DIR build)
 set(CMAKE_SOURCE_DIR src)
 
 project(ngTerm
-  VERSION 0.1.0 # SemVer
+  VERSION 0.1.1 # SemVer
   DESCRIPTION "A terminal with an emphasis on features without overhead"
   LANGUAGES CXX
 )
@@ -35,6 +35,8 @@ target_sources(ngterm
   src/cmdline.cxx
   src/pty.cxx
   src/types.cxx
+  src/tty.cxx
+  src/io.cxx
 )
 
 add_custom_target(format 
@@ -46,4 +48,4 @@ add_custom_target(format
 
 target_compile_definitions(ngterm PRIVATE VERSION=\"${PROJECT_VERSION}\")
 
-target_link_libraries(ngterm std)
+target_link_libraries(ngterm ncurses std)

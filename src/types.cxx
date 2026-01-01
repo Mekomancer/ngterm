@@ -13,3 +13,5 @@ export using std::int8_t;
 export using std::int16_t;
 export using std::int32_t;
 export using std::int64_t;
+export using std::size_t;
+export typedef std::ptrdiff_t ssize_t;
