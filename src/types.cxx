@@ -3,6 +3,9 @@ export module types;
 import std;
 
 export using std::string;
+export using std::string_view;
+export namespace fs = std::filesystem;
+export template <typename T> using sptr = std::shared_ptr<T>;
 export using std::vector;
 export using std::array;
 export using std::uint8_t;

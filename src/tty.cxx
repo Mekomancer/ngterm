@@ -1,5 +1,6 @@
 module;
 #include <curses.h>
+#include <fcntl.h>
 #include <unistd.h>
 export module tty;
 import io;
@@ -23,9 +24,10 @@ ssize_t tty::write_bytes(uint8_t *buffer, size_t num_bytes) {
 
 void init_tty() {
   initscr();
-  raw();
+  timeout(0);
   curs_set(0);
-  refresh();
+  raw();
+  fcntl(0, F_SETFL, O_NONBLOCK);
 }
 
 void cleanup_tty() { endwin(); }

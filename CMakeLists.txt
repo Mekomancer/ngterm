@@ -37,6 +37,10 @@ target_sources(ngterm
   src/types.cxx
   src/tty.cxx
   src/io.cxx
+  src/display.cxx
+  src/fb.cxx
+  src/debug.cxx
+  src/font.cxx
 )
 
 add_custom_target(format 
@@ -48,4 +52,4 @@ add_custom_target(format
 
 target_compile_definitions(ngterm PRIVATE VERSION=\"${PROJECT_VERSION}\")
 
-target_link_libraries(ngterm ncurses std)
+target_link_libraries(ngterm ncurses freetype std)

@@ -16,5 +16,5 @@ $(prog): build
 build: ../build.ninja
 	$(nin)
 ../build.ninja: 
-	env -C .. cmake .
+	env -C .. cmake . 
 
