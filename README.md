@@ -1,1 +1,1 @@
-licence is located in the 'legal' directory.
+# 'Nother Go TERMinal 

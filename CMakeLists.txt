@@ -4,19 +4,35 @@ set(CMAKE_CXX_COMPILER_IMPORT_STD 23 26)
 set(CMAKE_CXX_STANDARD 26)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
-set(CMAKE_BINARY_DIR build)
-set(CMAKE_SOURCE_DIR src)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY target)
 
-project(ngTerm
-  VERSION 0.1.1 # SemVer
-  DESCRIPTION "A terminal with an emphasis on features without overhead"
+project(ngterm
+  VERSION 0.1.2 # SemVer
+  DESCRIPTION "'Nother go termnial"
   LANGUAGES CXX
 )
+
+set(cxx_modules_path NOTFOUND)
+set(homedir NOTFOUND)
+
+file(REAL_PATH ~ homedir EXPAND_TILDE) 
+
+find_path(cxx_modules_path std.cppm 
+  PATHS ${homedir}
+  PATH_SUFFIXES /llvm-project/build/modules/c++/v1/
+  REQUIRED
+)
+
+if(NOT CMAKE_BUILD_TYPE)
+  set(CMAKE_BUILD_TYPE "Debug")
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS
+     "Debug" "Release" "MinSizeRel" "RelWithDebInfo")
+endif()
 
 include(FetchContent)
 FetchContent_Declare(
   std
-  URL "file:///home/mark/llvm-project/build/modules/c++/v1/"
+  SOURCE_DIR ${cxx_modules_path}
   DOWNLOAD_EXTRACT_TIMESTAMP TRUE
   SYSTEM
 )
@@ -31,25 +47,19 @@ target_sources(ngterm
   FILE_SET CXX_MODULES
   BASE_DIRS src
   FILES
-  src/ngterm.cxx
-  src/cmdline.cxx
-  src/pty.cxx
   src/types.cxx
-  src/tty.cxx
-  src/io.cxx
-  src/display.cxx
-  src/fb.cxx
-  src/debug.cxx
-  src/font.cxx
 )
 
 add_custom_target(format 
-  clang-format-20 -i $<TARGET_PROPERTY:ngterm,SOURCES> 
-  $<TARGET_PROPERTY:ngterm,CXX_MODULE_SET>
+  COMMAND clang-format -i
+  "$<PATH:ABSOLUTE_PATH,$<TARGET_PROPERTY:ngterm,SOURCES>
+  ,${CMAKE_SOURCE_DIR}>"
+  "$<PATH:ABSOLUTE_PATH,$<TARGET_PROPERTY:ngterm,CXX_MODULE_SET>
+  ,${CMAKE_SOURCE_DIR}>"
   COMMAND_EXPAND_LISTS
   VERBATIM
 )
 
 target_compile_definitions(ngterm PRIVATE VERSION=\"${PROJECT_VERSION}\")
 
-target_link_libraries(ngterm ncurses freetype std)
+target_link_libraries(ngterm std)
