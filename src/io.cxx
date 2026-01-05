@@ -55,6 +55,4 @@ ssize_t file::write_bytes(uint8_t *buffer, size_t num_bytes) {
 void file::open(fs::path pathname) {
   fd = ::open(pathname.c_str(), O_RDWR | O_CREAT | O_NONBLOCK, 00666);
 }
-void file::create(fs::path pathname){
-  fd = ::creat(pathname.c_str(), 00666);
-}
+void file::create(fs::path pathname) { fd = ::creat(pathname.c_str(), 00666); }

@@ -12,7 +12,7 @@ import types;
 export constexpr auto bitscale(auto val, int cur, int target) -> decltype(val) {
   return (((2 * val * ((1 << target) - 1)) / ((1 << cur) - 1)) + 1) / 2;
 }
-export class framebuffer : public display<uint16_t> {
+class framebuffer : public display<uint16_t> {
 public:
   void init(std::filesystem::path fb_device = "/dev/fb0");
   size_t height() override;
@@ -25,6 +25,8 @@ private:
   fb_fix_screeninfo finfo;
   pixel *addr = nullptr;
 };
+export framebuffer fb;
+
 framebuffer::pixel &framebuffer::at(size_t r, size_t c) {
   return addr[r + (479 - c) * 320];
 }

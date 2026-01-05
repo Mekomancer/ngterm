@@ -26,5 +26,5 @@ $(build_dir):
 clean:
 	rm -rf $(build_dir)
 
-
-
+debug:
+	gdbtui $(run_cmd)

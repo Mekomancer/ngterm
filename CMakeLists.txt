@@ -13,6 +13,7 @@ project(ngterm
 )
 
 set(cxx_modules_path NOTFOUND)
+set(font_file NOTFOUND)
 set(homedir NOTFOUND)
 
 file(REAL_PATH ~ homedir EXPAND_TILDE) 
@@ -20,6 +21,10 @@ file(REAL_PATH ~ homedir EXPAND_TILDE)
 find_path(cxx_modules_path std.cppm 
   PATHS ${homedir}
   PATH_SUFFIXES /llvm-project/build/modules/c++/v1/
+  REQUIRED
+)
+find_file(font_file NotoSansMono.ttf 
+  PATHS dat
   REQUIRED
 )
 
@@ -48,6 +53,17 @@ target_sources(ngterm
   BASE_DIRS src
   FILES
   src/types.cxx
+  src/cmdline.cxx
+  src/debug.cxx
+  src/display.cxx
+  src/fb.cxx
+  src/font.cxx
+  src/io.cxx
+  src/ngterm.cxx
+  src/pty.cxx
+  src/tty.cxx
+  src/consts.cxx
+  src/fterror.cxx	
 )
 
 add_custom_target(format 
@@ -60,6 +76,10 @@ add_custom_target(format
   VERBATIM
 )
 
-target_compile_definitions(ngterm PRIVATE VERSION=\"${PROJECT_VERSION}\")
+target_compile_definitions(ngterm 
+  PRIVATE 
+  VERSION=\"${PROJECT_VERSION}\" 
+  FONT_FILE=\"${font_file}\"
+)
 
-target_link_libraries(ngterm std)
+target_link_libraries(ngterm freetype ncurses std)

@@ -18,3 +18,18 @@ export using std::int32_t;
 export using std::int64_t;
 export using std::size_t;
 export typedef std::ptrdiff_t ssize_t;
+export template <typename V> struct matrix {
+  size_t width;
+  size_t height;
+  void resize(size_t w, size_t h);
+  V &operator[](size_t r, size_t c) { return data[c + r * width]; };
+
+private:
+  vector<V> data;
+};
+
+template <typename V> void matrix<V>::resize(size_t w, size_t h) {
+  width = w;
+  height = h;
+  data.resize(w * h);
+}

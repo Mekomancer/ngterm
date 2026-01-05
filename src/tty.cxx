@@ -8,13 +8,25 @@ import types;
 
 export void init_tty();
 export void cleanup_tty();
-
 export class tty : public reader, public writer {
+public:
+  struct screen_size {
+    int w;
+    int h;
+  };
+  screen_size dim();
+
 protected:
   ssize_t read_bytes(uint8_t *buffer, size_t num_bytes) override;
   ssize_t write_bytes(uint8_t *buffer, size_t num_bytes) override;
+
 } ttyio;
 
+tty::screen_size tty::dim() {
+  int retx, rety;
+  getmaxyx(stdscr, rety, retx);
+  return {retx, rety};
+};
 ssize_t tty::read_bytes(uint8_t *buffer, size_t num_bytes) {
   return ::read(0, buffer, num_bytes);
 }

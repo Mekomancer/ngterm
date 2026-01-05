@@ -13,7 +13,5 @@ template <typename... Args>
 void debug_log::log(std::format_string<Args...> fmt, Args &&...args) {
   print(fmt, std::forward<Args>(args)...);
 }
-debug_log::debug_log(){
-  create("./log");
-}
+debug_log::debug_log() { create("./log"); }
 export debug_log dbg;
